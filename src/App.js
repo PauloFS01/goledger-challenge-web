@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
 
 <link
   rel="stylesheet"
@@ -11,7 +12,11 @@ import { Routes, Route } from "react-router-dom";
 />;
 
 function App() {
-  return <Routes>{/* Route here */}</Routes>;
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+    </Routes>
+  );
 }
 
 export default App;
