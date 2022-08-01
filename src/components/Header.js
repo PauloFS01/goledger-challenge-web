@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import PrecisionManufacturingIcon from "@mui/icons-material/PrecisionManufacturing";
+import SpeedIcon from "@mui/icons-material/Speed";
 
 function Header({ title = "Races" }) {
   return (
@@ -21,7 +21,7 @@ function Header({ title = "Races" }) {
           <Grid container alignItems="center" spacing={1}>
             <Grid item>
               <Tooltip title="Alerts • No alerts">
-                <PrecisionManufacturingIcon />
+                <SpeedIcon />
               </Tooltip>
             </Grid>
             <Grid item xs>

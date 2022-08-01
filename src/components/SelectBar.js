@@ -9,6 +9,7 @@ export default function BasicSelect({
   description = "Asset",
   selectedAsset,
   setSelectedAsset,
+  valueArray,
 }) {
   const handleChange = (event) => {
     setSelectedAsset(event.target.value);
@@ -25,10 +26,9 @@ export default function BasicSelect({
           label="Age"
           onChange={handleChange}
         >
-          <MenuItem value={"car"}>Car</MenuItem>
-          <MenuItem value={"driver"}>Driver</MenuItem>
-          <MenuItem value={"team"}>Team</MenuItem>
-          <MenuItem value={"event"}>Event</MenuItem>
+          {valueArray.map((item) => (
+            <MenuItem value={item.tag}> {item.name} </MenuItem>
+          ))}
         </Select>
       </FormControl>
     </Box>

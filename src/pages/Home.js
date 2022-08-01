@@ -6,28 +6,40 @@ import AddIcon from "@mui/icons-material/Add";
 import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import { styled } from "@mui/material/styles";
 
 import Header from "../components/Header";
-import StickyHeadTable from "../components/Table";
 import SelectBar from "../components/SelectBar";
 import NewAssetForm from "../components/NewAssetForm";
 import SimpleTable from "../components/SimpleTable";
 
+const defaultValue = [
+  { tag: "car", name: "Car" },
+  { tag: "driver", name: "Driver" },
+  { tag: "team", name: "Team" },
+  { tag: "event", name: "Event" },
+];
+
 function FormModal({ isOpen, setIsOpen, assetTag }) {
   const handleClose = () => setIsOpen(false);
   return (
-    <Modal
+    <Dialog
       open={isOpen}
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      maxWidth="md"
     >
-      <Box sx={modalStyle}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          <NewAssetForm currentAsset={assetTag} />
-        </Typography>
-      </Box>
-    </Modal>
+      <StyledTableRow id="responsive-dialog-title">
+        {"Create a new asset here"}
+      </StyledTableRow>
+      <DialogContent>
+        <NewAssetForm currentAsset={assetTag} />
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -56,6 +68,7 @@ export default function Home() {
                   style={{ with: "100%" }}
                   selectedAsset={selectedAsset}
                   setSelectedAsset={setSelectedAsset}
+                  valueArray={defaultValue}
                 />
               </Grid>
               <Grid item xs={2} style={formStyle}>
@@ -90,14 +103,12 @@ const formStyle = {
   justifyContent: "center",
 };
 
-const modalStyle = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+const StyledTableRow = styled(DialogTitle)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));

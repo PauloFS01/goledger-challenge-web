@@ -6,6 +6,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+
 import { styled } from "@mui/material/styles";
 
 const carsResult = [
@@ -251,6 +255,7 @@ function CarTable({ assets }) {
             <TableCell align="left">Type</TableCell>
             <TableCell align="center">ID</TableCell>
             <TableCell align="center">Model</TableCell>
+            <TableCell align="center">Actions</TableCell>
           </StyledTableRow>
         </TableHead>
         <TableBody>
@@ -262,6 +267,14 @@ function CarTable({ assets }) {
               <TableCell align="left">{row.type}</TableCell>
               <TableCell align="center">{row.id}</TableCell>
               <TableCell align="center">{row.model}</TableCell>
+              <TableCell align="center">
+                <IconButton aria-label="edit" color="primary">
+                  <BorderColorIcon />
+                </IconButton>
+                <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
+                  <DeleteForeverIcon />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -281,6 +294,7 @@ function TeamTable({ assets }) {
             <TableCell align="left">Type</TableCell>
             <TableCell align="center">ID</TableCell>
             <TableCell align="center">Name</TableCell>
+            <TableCell align="center">Actions</TableCell>
           </StyledTableRow>
         </TableHead>
         <TableBody>
@@ -292,6 +306,14 @@ function TeamTable({ assets }) {
               <TableCell align="left">{row.type}</TableCell>
               <TableCell align="center">{row.id}</TableCell>
               <TableCell align="center">{row.name}</TableCell>
+              <TableCell align="center">
+                <IconButton aria-label="edit" color="primary">
+                  <BorderColorIcon />
+                </IconButton>
+                <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
+                  <DeleteForeverIcon />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -312,6 +334,7 @@ function DriverTable({ assets }) {
             <TableCell align="center">ID</TableCell>
             <TableCell align="center">Name</TableCell>
             <TableCell align="center">Team</TableCell>
+            <TableCell align="center">Actions</TableCell>
           </StyledTableRow>
         </TableHead>
         <TableBody>
@@ -324,6 +347,14 @@ function DriverTable({ assets }) {
               <TableCell align="center">{row.id}</TableCell>
               <TableCell align="center">{row.name}</TableCell>
               <TableCell align="center">{row.team}</TableCell>
+              <TableCell align="center">
+                <IconButton aria-label="edit" color="primary">
+                  <BorderColorIcon />
+                </IconButton>
+                <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
+                  <DeleteForeverIcon />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -339,9 +370,10 @@ function EventTable({ assets }) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <StyledTableRow>
-            <TableCell align="left">Type</TableCell>
+            <TableCell align="left">Name</TableCell>
             <TableCell align="center">Date</TableCell>
             <TableCell align="center">Prize</TableCell>
+            <TableCell align="center">Actions</TableCell>
           </StyledTableRow>
         </TableHead>
         <TableBody>
@@ -350,9 +382,17 @@ function EventTable({ assets }) {
               key={row.id}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell align="left">{row.type}</TableCell>
-              <TableCell align="center">{row.name}</TableCell>
+              <TableCell align="left">{row.name}</TableCell>
+              <TableCell align="center">{row.date}</TableCell>
               <TableCell align="center">{row.prize}</TableCell>
+              <TableCell align="center">
+                <IconButton aria-label="edit" color="primary">
+                  <BorderColorIcon />
+                </IconButton>
+                <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
+                  <DeleteForeverIcon />
+                </IconButton>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
