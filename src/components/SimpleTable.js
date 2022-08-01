@@ -12,54 +12,57 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 import { styled } from "@mui/material/styles";
 
+import UpdateAssetForm from "./UpdateAssetForm";
+import DialogComponent from "./DialogComponent";
+
 const carsResult = [
   {
-    assetType: "car",
-    key: "car:04bef002-17fb-5482-9b0d-413ae89a4730",
-    lastTouchBy: "orgMSP",
-    lastTx: "createAsset",
+    "@assetType": "car",
+    "@key": "car:04bef002-17fb-5482-9b0d-413ae89a4730",
+    "@lastTouchBy": "orgMSP",
+    "@lastTx": "createAsset",
     driver: {
-      assetType: "driver",
-      key: "driver:bdd6698b-90c7-5820-be4e-398fcbe54322",
+      "@assetType": "driver",
+      "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6a",
     },
     id: 18,
     model: "Diferent",
   },
   {
-    assetType: "car",
-    key: "car:25633c68-6995-555d-933f-6680e69d0d3e",
-    lastTouchBy: "orgMSP",
-    lastTx: "createAsset",
+    "@assetType": "car",
+    "@key": "car:25633c68-6995-555d-933f-6680e69d0d3e",
+    "@lastTouchBy": "orgMSP",
+    "@lastTx": "createAsset",
     driver: {
       assetType: "driver",
-      key: "driver:1e45e6b9-2f21-5473-a8d5-d27066d74740",
+      "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6c",
     },
     id: 1549,
     model: "lepo",
   },
   {
-    assetType: "car",
-    key: "car:04bef002-17fb-5482-9b0d-413ae89a4730",
-    lastTouchBy: "orgMSP",
-    lastTx: "createAsset",
+    "@assetType": "car",
+    "@key": "car:04bef002-17fb-5482-9b0d-413ae89a4731",
+    "@lastTouchBy": "orgMSP",
+    "@lastTx": "createAsset",
     driver: {
       assetType: "driver",
-      key: "driver:bdd6698b-90c7-5820-be4e-398fcbe54322",
+      "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6c",
     },
     id: 32,
     model: "aother",
   },
   {
-    assetType: "car",
-    key: "car:25633c68-6995-555d-933f-6680e69d0d3e",
-    lastTouchBy: "orgMSP",
-    lastTx: "createAsset",
+    "@assetType": "car",
+    "@key": "car:25633c68-6995-555d-933f-6680e69d0d3u",
+    "@lastTouchBy": "orgMSP",
+    "@lastTx": "createAsset",
     driver: {
       assetType: "driver",
-      key: "driver:1e45e6b9-2f21-5473-a8d5-d27066d74740",
+      "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6g",
     },
     id: 99,
-    model: "lepo",
+    model: "junipero",
   },
 ];
 
@@ -74,7 +77,7 @@ const teamResult = [
   },
   {
     "@assetType": "team",
-    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
+    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6b",
     "@lastTouchBy": "orgMSP",
     "@lastTx": "createAsset",
     id: 98,
@@ -82,7 +85,7 @@ const teamResult = [
   },
   {
     "@assetType": "team",
-    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
+    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6d",
     "@lastTouchBy": "orgMSP",
     "@lastTx": "createAsset",
     id: 123,
@@ -100,24 +103,24 @@ const driverResult = [
     name: "Ghost Rider",
     team: {
       "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
+      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6b",
     },
   },
   {
     "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6a",
+    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6c",
     "@lastTouchBy": "orgMSP",
     "@lastTx": "createAsset",
     id: 123,
     name: "Mariolo",
     team: {
       "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
+      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6d",
     },
   },
   {
     "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6a",
+    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6e",
     "@lastTouchBy": "orgMSP",
     "@lastTx": "createAsset",
     id: 124,
@@ -129,7 +132,7 @@ const driverResult = [
   },
   {
     "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6a",
+    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6g",
     "@lastTouchBy": "orgMSP",
     "@lastTx": "createAsset",
     id: 125,
@@ -198,14 +201,20 @@ const eventResult = [
 
 function createData(data) {
   const asset = data.map((item) => {
-    return { type: "Car", id: item.id, model: item.model };
+    return {
+      key: item["@key"],
+      type: "car",
+      id: item.id,
+      model: item.model,
+      driver: item.driver["@key"],
+    };
   });
   return asset;
 }
 
 function createDataTeam(data) {
   const asset = data.map((item) => {
-    return { type: "Team", id: item.id, name: item.name };
+    return { type: "team", id: item.id, name: item.name, key: item["@key"] };
   });
   return asset;
 }
@@ -213,10 +222,10 @@ function createDataTeam(data) {
 function createDataDriver(data) {
   const asset = data.map((item) => {
     return {
-      type: "Driver",
+      type: "driver",
       id: item.id,
       name: item.name,
-      team: "seach here!",
+      team: item.team["@key"],
     };
   });
   return asset;
@@ -225,26 +234,30 @@ function createDataDriver(data) {
 function createDataEvent(data) {
   const asset = data.map((item) => {
     return {
-      type: "Event",
+      type: "event",
       name: item.name,
       date: item.date,
       prize: item.prize,
+      winner: item.winner["@key"],
     };
   });
   return asset;
 }
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-  // hide last border
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
+function findeElementByKey(key, font) {
+  const name = font.map((item) => {
+    if (item["@key"] === key) return item.name;
+  });
+  return name;
+}
 
 function CarTable({ assets }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [currenRow, setCurrentRow] = React.useState({});
+  const handleOpen = (row) => {
+    setCurrentRow(row);
+    setIsOpen(true);
+  };
   const rows = createData(carsResult);
 
   return (
@@ -253,7 +266,7 @@ function CarTable({ assets }) {
         <TableHead>
           <StyledTableRow>
             <TableCell align="left">Type</TableCell>
-            <TableCell align="center">ID</TableCell>
+            <TableCell align="center">Driver</TableCell>
             <TableCell align="center">Model</TableCell>
             <TableCell align="center">Actions</TableCell>
           </StyledTableRow>
@@ -265,11 +278,13 @@ function CarTable({ assets }) {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell align="left">{row.type}</TableCell>
-              <TableCell align="center">{row.id}</TableCell>
+              <TableCell align="center">
+                {findeElementByKey(row.driver, driverResult)}
+              </TableCell>
               <TableCell align="center">{row.model}</TableCell>
               <TableCell align="center">
                 <IconButton aria-label="edit" color="primary">
-                  <BorderColorIcon />
+                  <BorderColorIcon onClick={() => handleOpen(row)} />
                 </IconButton>
                 <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
                   <DeleteForeverIcon />
@@ -279,11 +294,24 @@ function CarTable({ assets }) {
           ))}
         </TableBody>
       </Table>
+      <DialogComponent
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title="Update asset"
+      >
+        <UpdateAssetForm currentAsset={currenRow} />
+      </DialogComponent>
     </TableContainer>
   );
 }
 
 function TeamTable({ assets }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [currenRow, setCurrentRow] = React.useState({});
+  const handleOpen = (row) => {
+    setCurrentRow(row);
+    setIsOpen(true);
+  };
   const rows = createDataTeam(teamResult);
 
   return (
@@ -308,7 +336,7 @@ function TeamTable({ assets }) {
               <TableCell align="center">{row.name}</TableCell>
               <TableCell align="center">
                 <IconButton aria-label="edit" color="primary">
-                  <BorderColorIcon />
+                  <BorderColorIcon onClick={() => handleOpen(row)} />
                 </IconButton>
                 <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
                   <DeleteForeverIcon />
@@ -318,11 +346,25 @@ function TeamTable({ assets }) {
           ))}
         </TableBody>
       </Table>
+      <DialogComponent
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title="Update asset"
+      >
+        <UpdateAssetForm currentAsset={currenRow} />
+      </DialogComponent>
     </TableContainer>
   );
 }
 
 function DriverTable({ assets }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [currenRow, setCurrentRow] = React.useState({});
+  const handleOpen = (row) => {
+    setCurrentRow(row);
+    setIsOpen(true);
+  };
+
   const rows = createDataDriver(driverResult);
 
   return (
@@ -346,10 +388,12 @@ function DriverTable({ assets }) {
               <TableCell align="left">{row.type}</TableCell>
               <TableCell align="center">{row.id}</TableCell>
               <TableCell align="center">{row.name}</TableCell>
-              <TableCell align="center">{row.team}</TableCell>
+              <TableCell align="center">
+                {findeElementByKey(row.team, teamResult)}
+              </TableCell>
               <TableCell align="center">
                 <IconButton aria-label="edit" color="primary">
-                  <BorderColorIcon />
+                  <BorderColorIcon onClick={() => handleOpen(row)} />
                 </IconButton>
                 <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
                   <DeleteForeverIcon />
@@ -359,10 +403,24 @@ function DriverTable({ assets }) {
           ))}
         </TableBody>
       </Table>
+      <DialogComponent
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title="Update asset"
+      >
+        <UpdateAssetForm currentAsset={currenRow} />
+      </DialogComponent>
     </TableContainer>
   );
 }
 function EventTable({ assets }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [currenRow, setCurrentRow] = React.useState({});
+  const handleOpen = (row) => {
+    setCurrentRow(row);
+    setIsOpen(true);
+  };
+
   const rows = createDataEvent(eventResult);
 
   return (
@@ -386,7 +444,11 @@ function EventTable({ assets }) {
               <TableCell align="center">{row.date}</TableCell>
               <TableCell align="center">{row.prize}</TableCell>
               <TableCell align="center">
-                <IconButton aria-label="edit" color="primary">
+                <IconButton
+                  aria-label="edit"
+                  color="primary"
+                  onClick={() => handleOpen(row)}
+                >
                   <BorderColorIcon />
                 </IconButton>
                 <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
@@ -397,6 +459,13 @@ function EventTable({ assets }) {
           ))}
         </TableBody>
       </Table>
+      <DialogComponent
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        title="Update asset"
+      >
+        <UpdateAssetForm currentAsset={currenRow} />
+      </DialogComponent>
     </TableContainer>
   );
 }
@@ -407,3 +476,13 @@ export default function BasicTable({ asset }) {
   if (asset === "driver") return <DriverTable />;
   if (asset === "event") return <EventTable />;
 }
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));

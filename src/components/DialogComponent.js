@@ -14,7 +14,13 @@ const StyledTableRow = styled(DialogTitle)(({ theme }) => ({
   },
 }));
 
-export default function DialogComponent({ isOpen, handleClose, children }) {
+export default function DialogComponent({
+  isOpen,
+  setIsOpen,
+  children,
+  title = "Create a new asset here",
+}) {
+  const handleClose = () => setIsOpen(false);
   return (
     <Dialog
       open={isOpen}
@@ -23,9 +29,7 @@ export default function DialogComponent({ isOpen, handleClose, children }) {
       aria-describedby="modal-modal-description"
       maxWidth="md"
     >
-      <StyledTableRow id="responsive-dialog-title">
-        {"Create a new asset here"}
-      </StyledTableRow>
+      <StyledTableRow id="responsive-dialog-title">{title}</StyledTableRow>
       <DialogContent>{children}</DialogContent>
     </Dialog>
   );

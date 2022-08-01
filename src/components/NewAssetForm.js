@@ -116,8 +116,6 @@ function FormNewCar() {
     setValue(event.target.value);
   };
 
-  React.useEffect(() => console.log(selectedAsset), [selectedAsset]);
-
   //   function handleClick() {
   //     setLoading(true);
   //     setTimeout(() => {
