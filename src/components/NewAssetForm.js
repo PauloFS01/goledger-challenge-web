@@ -1,11 +1,14 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SendIcon from "@mui/icons-material/Send";
 import Grid from "@mui/material/Grid";
+
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import SelectBar from "../components/SelectBar";
 
@@ -109,19 +112,12 @@ function convertTeamIntoSelectData(data) {
 
 function FormNewCar() {
   const [loading, setLoading] = React.useState(false);
-  const [selectedAsset, setSelectedAsset] = React.useState(null);
-  const [value, setValue] = React.useState("");
+  const [selectedAsset, setSelectedAsset] = React.useState("");
+  const [model, setModel] = React.useState("");
 
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setModel(event.target.value);
   };
-
-  //   function handleClick() {
-  //     setLoading(true);
-  //     setTimeout(() => {
-  //       setLoading(false);
-  //     }, 2000);
-  //   }
   function send() {
     const newEvent = {
       asset: [
@@ -132,24 +128,19 @@ function FormNewCar() {
             "@key": selectedAsset,
           },
           id: Math.random() * 100,
-          model: value,
+          model: model,
         },
       ],
     };
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      setModel("");
+      console.log(newEvent);
     }, 2000);
   }
   return (
-    <Box
-      component="form"
-      //   sx={{
-      //     "& > :not(style)": { m: 1, width: "500ch" },
-      //   }}
-      noValidate
-      autoComplete="off"
-    >
+    <Box component="form" noValidate autoComplete="off">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h5" gutterBottom component="div">
@@ -161,13 +152,14 @@ function FormNewCar() {
             id="outlined-basic"
             label="Model"
             variant="outlined"
-            value={value}
+            value={model}
             onChange={handleChange}
             style={{ width: "100%" }}
           />
         </Grid>
         <Grid item xs={8}>
           <SelectBar
+            description="Rider"
             selectedAsset={selectedAsset}
             setSelectedAsset={setSelectedAsset}
             valueArray={convertTeamIntoSelectData(driverResult)}
@@ -189,7 +181,7 @@ function FormNewCar() {
             loadingPosition="end"
             variant="outlined"
             color="primary"
-            disabled={!value || !selectedAsset}
+            disabled={!model || !selectedAsset}
             style={{ width: "100%" }}
           >
             Send
@@ -202,16 +194,33 @@ function FormNewCar() {
 
 function FormNewTeam() {
   const [loading, setLoading] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [name, setName] = React.useState("");
 
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setName(event.target.value);
   };
 
-  function handleClick() {
+  // function handleClick() {
+  //   setLoading(true);
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  // }
+  function send() {
+    const newEvent = {
+      asset: [
+        {
+          "@assetType": "team",
+          id: Math.random() * 10,
+          name: name,
+        },
+      ],
+    };
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      setName("");
+      console.log(newEvent);
     }, 2000);
   }
   return (
@@ -234,7 +243,7 @@ function FormNewTeam() {
             id="outlined-basic"
             label="Name"
             variant="outlined"
-            value={value}
+            value={name}
             onChange={handleChange}
             style={{ width: "100%" }}
           />
@@ -249,13 +258,13 @@ function FormNewTeam() {
         >
           <LoadingButton
             size="large"
-            onClick={handleClick}
+            onClick={send}
             endIcon={<SendIcon />}
             loading={loading}
             loadingPosition="end"
             variant="outlined"
             color="primary"
-            disabled={!value}
+            disabled={!name}
             style={{ width: "100%" }}
           >
             Send
@@ -271,6 +280,7 @@ function FormNewEvent() {
   const [selectedAsset, setSelectedAsset] = React.useState("");
   const [name, setName] = React.useState("");
   const [prize, setPrize] = React.useState("");
+  const [date, setDate] = React.useState(new Date());
 
   const handleChange = (event) => {
     setName(event.target.value);
@@ -279,13 +289,6 @@ function FormNewEvent() {
   const handleChangePrize = (event) => {
     setPrize(event.target.value);
   };
-
-  //   function handleClick() {
-  //     setLoading(true);
-  //     setTimeout(() => {
-  //       setLoading(false);
-  //     }, 2000);
-  //   }
 
   function send() {
     const newEvent = {
@@ -296,15 +299,17 @@ function FormNewEvent() {
             "@assetType": "team",
             "@key": selectedAsset,
           },
-          id: Math.random() * 100,
+          id: Math.random() * 10,
           name: name,
           prize: prize,
+          date: date,
         },
       ],
     };
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      console.log(newEvent);
     }, 2000);
   }
 
@@ -342,6 +347,17 @@ function FormNewEvent() {
             value={prize}
             onChange={handleChangePrize}
           />
+        </Grid>
+        <Grid item xs={4}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DesktopDatePicker
+              label="Date desktop"
+              inputFormat="MM/dd/yyyy"
+              value={date}
+              onChange={(newValue) => setDate(newValue)}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
         </Grid>
         <Grid item xs={8}>
           <SelectBar
@@ -381,18 +397,11 @@ function FormNewEvent() {
 function FormNewDriver() {
   const [loading, setLoading] = React.useState(false);
   const [selectedAsset, setSelectedAsset] = React.useState("");
-  const [value, setValue] = React.useState("");
+  const [driver, setDriver] = React.useState("");
 
   const handleChange = (event) => {
-    setValue(event.target.value);
+    setDriver(event.target.value);
   };
-
-  //   function handleClick() {
-  //     setLoading(true);
-  //     setTimeout(() => {
-  //       setLoading(false);
-  //     }, 2000);
-  //   }
 
   function send() {
     const newDriver = {
@@ -404,13 +413,15 @@ function FormNewDriver() {
             "@key": selectedAsset,
           },
           id: Math.random() * 100,
-          name: value,
+          name: driver,
         },
       ],
     };
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
+      setDriver("");
+      console.log(newDriver);
     }, 2000);
   }
   return (
@@ -433,7 +444,7 @@ function FormNewDriver() {
             id="outlined-basic"
             label="Name"
             variant="outlined"
-            value={value}
+            value={driver}
             onChange={handleChange}
             style={{ width: "100%" }}
           />
@@ -462,7 +473,7 @@ function FormNewDriver() {
             loadingPosition="end"
             variant="outlined"
             color="primary"
-            disabled={!value || !selectedAsset}
+            disabled={!driver || !selectedAsset}
             style={{ width: "100%" }}
           >
             Send

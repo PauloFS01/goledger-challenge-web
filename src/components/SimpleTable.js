@@ -14,6 +14,7 @@ import { styled } from "@mui/material/styles";
 
 import UpdateAssetForm from "./UpdateAssetForm";
 import DialogComponent from "./DialogComponent";
+import formatDate from "../utils/dateFormat";
 
 const carsResult = [
   {
@@ -254,6 +255,7 @@ function findeElementByKey(key, font) {
 function CarTable({ assets }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currenRow, setCurrentRow] = React.useState({});
+  const [formMode, setFormMode] = React.useState("update");
   const handleOpen = (row) => {
     setCurrentRow(row);
     setIsOpen(true);
@@ -284,10 +286,20 @@ function CarTable({ assets }) {
               <TableCell align="center">{row.model}</TableCell>
               <TableCell align="center">
                 <IconButton aria-label="edit" color="primary">
-                  <BorderColorIcon onClick={() => handleOpen(row)} />
+                  <BorderColorIcon
+                    onClick={() => {
+                      setFormMode("update");
+                      handleOpen(row);
+                    }}
+                  />
                 </IconButton>
                 <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
-                  <DeleteForeverIcon />
+                  <DeleteForeverIcon
+                    onClick={() => {
+                      setFormMode("delete");
+                      handleOpen(row);
+                    }}
+                  />
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -297,9 +309,9 @@ function CarTable({ assets }) {
       <DialogComponent
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        title="Update asset"
+        title="Change Cars"
       >
-        <UpdateAssetForm currentAsset={currenRow} />
+        <UpdateAssetForm currentAsset={currenRow} formMode={formMode} />
       </DialogComponent>
     </TableContainer>
   );
@@ -308,6 +320,7 @@ function CarTable({ assets }) {
 function TeamTable({ assets }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currenRow, setCurrentRow] = React.useState({});
+  const [formMode, setFormMode] = React.useState("update");
   const handleOpen = (row) => {
     setCurrentRow(row);
     setIsOpen(true);
@@ -336,10 +349,20 @@ function TeamTable({ assets }) {
               <TableCell align="center">{row.name}</TableCell>
               <TableCell align="center">
                 <IconButton aria-label="edit" color="primary">
-                  <BorderColorIcon onClick={() => handleOpen(row)} />
+                  <BorderColorIcon
+                    onClick={() => {
+                      setFormMode("update");
+                      handleOpen(row);
+                    }}
+                  />
                 </IconButton>
                 <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
-                  <DeleteForeverIcon />
+                  <DeleteForeverIcon
+                    onClick={() => {
+                      setFormMode("delete");
+                      handleOpen(row);
+                    }}
+                  />
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -349,9 +372,9 @@ function TeamTable({ assets }) {
       <DialogComponent
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        title="Update asset"
+        title="Change Team"
       >
-        <UpdateAssetForm currentAsset={currenRow} />
+        <UpdateAssetForm currentAsset={currenRow} formMode={formMode} />
       </DialogComponent>
     </TableContainer>
   );
@@ -360,6 +383,7 @@ function TeamTable({ assets }) {
 function DriverTable({ assets }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currenRow, setCurrentRow] = React.useState({});
+  const [formMode, setFormMode] = React.useState("update");
   const handleOpen = (row) => {
     setCurrentRow(row);
     setIsOpen(true);
@@ -393,10 +417,20 @@ function DriverTable({ assets }) {
               </TableCell>
               <TableCell align="center">
                 <IconButton aria-label="edit" color="primary">
-                  <BorderColorIcon onClick={() => handleOpen(row)} />
+                  <BorderColorIcon
+                    onClick={() => {
+                      setFormMode("update");
+                      handleOpen(row);
+                    }}
+                  />
                 </IconButton>
                 <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
-                  <DeleteForeverIcon />
+                  <DeleteForeverIcon
+                    onClick={() => {
+                      setFormMode("delete");
+                      handleOpen(row);
+                    }}
+                  />
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -406,9 +440,9 @@ function DriverTable({ assets }) {
       <DialogComponent
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        title="Update asset"
+        title="Change Driver"
       >
-        <UpdateAssetForm currentAsset={currenRow} />
+        <UpdateAssetForm currentAsset={currenRow} formMode={formMode} />
       </DialogComponent>
     </TableContainer>
   );
@@ -416,6 +450,7 @@ function DriverTable({ assets }) {
 function EventTable({ assets }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currenRow, setCurrentRow] = React.useState({});
+  const [formMode, setFormMode] = React.useState("update");
   const handleOpen = (row) => {
     setCurrentRow(row);
     setIsOpen(true);
@@ -441,7 +476,9 @@ function EventTable({ assets }) {
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <TableCell align="left">{row.name}</TableCell>
-              <TableCell align="center">{row.date}</TableCell>
+              <TableCell align="center">
+                {formatDate(new Date(row.date))}
+              </TableCell>
               <TableCell align="center">{row.prize}</TableCell>
               <TableCell align="center">
                 <IconButton
@@ -449,10 +486,20 @@ function EventTable({ assets }) {
                   color="primary"
                   onClick={() => handleOpen(row)}
                 >
-                  <BorderColorIcon />
+                  <BorderColorIcon
+                    onClick={() => {
+                      setFormMode("update");
+                      handleOpen(row);
+                    }}
+                  />
                 </IconButton>
                 <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
-                  <DeleteForeverIcon />
+                  <DeleteForeverIcon
+                    onClick={() => {
+                      setFormMode("delete");
+                      handleOpen(row);
+                    }}
+                  />
                 </IconButton>
               </TableCell>
             </TableRow>
@@ -462,9 +509,9 @@ function EventTable({ assets }) {
       <DialogComponent
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        title="Update asset"
+        title="Change Event"
       >
-        <UpdateAssetForm currentAsset={currenRow} />
+        <UpdateAssetForm currentAsset={currenRow} formMode={formMode} />
       </DialogComponent>
     </TableContainer>
   );

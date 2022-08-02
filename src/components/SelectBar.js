@@ -10,6 +10,7 @@ export default function BasicSelect({
   selectedAsset,
   setSelectedAsset,
   valueArray,
+  isDisabled,
 }) {
   const handleChange = (event) => {
     setSelectedAsset(event.target.value);
@@ -25,6 +26,7 @@ export default function BasicSelect({
           value={selectedAsset}
           label="Age"
           onChange={handleChange}
+          disabled={isDisabled}
         >
           {valueArray.map((item) => (
             <MenuItem value={item.tag}> {item.name} </MenuItem>
