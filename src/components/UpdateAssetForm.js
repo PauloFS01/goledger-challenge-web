@@ -11,137 +11,15 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
+import {
+  mountCar,
+  mountEvent,
+  mountTeam,
+  mountDriver,
+} from "../hooks/mountAssets";
+import { updateAsset, deleteAsset } from "../hooks/useRequest";
+
 import SelectBar from "./SelectBar";
-
-const teamResult = [
-  {
-    "@assetType": "team",
-    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 99,
-    name: "Anhanguera team",
-  },
-  {
-    "@assetType": "team",
-    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6b",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 98,
-    name: "99 team",
-  },
-  {
-    "@assetType": "team",
-    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6d",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 123,
-    name: "Piranhas team",
-  },
-];
-
-const driverResult = [
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 100,
-    name: "Ghost Rider",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6b",
-    },
-  },
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6c",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 123,
-    name: "Mariolo",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6d",
-    },
-  },
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6e",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 124,
-    name: "Joãosinho",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    },
-  },
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6g",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 125,
-    name: "Maneco",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    },
-  },
-];
-
-function mountEvent(prize, winner, key) {
-  return {
-    update: {
-      "@assetType": "event",
-      "@key": key,
-      prize: prize,
-      winner: {
-        "@assetType": "team",
-        "@key": winner,
-      },
-    },
-  };
-}
-
-function mountTeam(name, key) {
-  return {
-    update: {
-      "@assetType": "event",
-      "@key": key,
-      name: name,
-    },
-  };
-}
-
-function mountDriver(name, team, key) {
-  return {
-    update: {
-      "@assetType": "driver",
-      "@key": key,
-      name: name,
-      team: {
-        "@assetType": "team",
-        "@key": team,
-      },
-    },
-  };
-}
-
-function mountCar(model, driver, key) {
-  return {
-    update: {
-      "@assetType": "driver",
-      "@key": key,
-      model: model,
-      driver: {
-        "@assetType": "driver",
-        "@key": driver,
-      },
-    },
-  };
-}
 
 function convertIntoSelectData(data) {
   const asset = data.map((item) => {
@@ -153,7 +31,12 @@ function convertIntoSelectData(data) {
   return asset;
 }
 
-export default function UpdateAssetForm({ currentAsset, formMode = "update" }) {
+export default function UpdateAssetForm({
+  currentAsset,
+  formMode = "update",
+  teams,
+  drivers,
+}) {
   const [loading, setLoading] = React.useState(false);
 
   const [name, setName] = React.useState(
@@ -176,42 +59,47 @@ export default function UpdateAssetForm({ currentAsset, formMode = "update" }) {
     }, 2000);
   }
 
-  function sendUpdatedAsset() {
+  async function sendUpdatedAsset() {
     let asset = {};
     if (currentAsset.type === "event")
-      asset = mountEvent(prize, team, currentAsset.type);
+      asset = mountEvent({
+        prize: prize,
+        winner: team,
+        key: currentAsset.key,
+        date: date,
+        name: name,
+        mode: formMode,
+      });
 
-    if (currentAsset.type === "team") asset = mountTeam(name, currentAsset.key);
+    if (currentAsset.type === "team")
+      asset = mountTeam({ name: name, key: currentAsset.key, mode: formMode });
 
     if (currentAsset.type === "driver")
-      asset = mountDriver(name, team, currentAsset.key);
+      asset = mountDriver({
+        name: name,
+        team: team,
+        key: currentAsset.key,
+        mode: formMode,
+      });
 
     if (currentAsset.type === "car")
-      asset = mountCar(name, team, currentAsset.key);
+      asset = mountCar({
+        model: name,
+        driver: driver,
+        key: currentAsset.key,
+        mode: formMode,
+      });
 
-    if (formMode === "update")
-      console.log(`sending asset key: ${asset.update["@key"]}`);
-    if (formMode === "delete")
-      console.log(`deleting asset key: ${asset.update["@key"]}`);
+    if (formMode === "update") await updateAsset(asset);
+    if (formMode === "delete") await deleteAsset(asset);
   }
 
   function isDisable() {
     return false;
   }
 
-  //   const handleChange = (newValue) => {
-  //     setDate(newValue);
-  //   };
-
   return (
-    <Box
-      component="form"
-      //   sx={{
-      //     "& > :not(style)": { m: 1, width: "500ch" },
-      //   }}
-      noValidate
-      autoComplete="off"
-    >
+    <Box component="form" noValidate autoComplete="off">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h5" gutterBottom component="div">
@@ -263,7 +151,7 @@ export default function UpdateAssetForm({ currentAsset, formMode = "update" }) {
               description={currentAsset.type === "event" ? "Winner" : "Team"}
               selectedAsset={team}
               setSelectedAsset={setTeam}
-              valueArray={convertIntoSelectData(teamResult)}
+              valueArray={convertIntoSelectData(teams)}
               isDisabled={formMode === "delete"}
             />
           </Grid>
@@ -274,7 +162,7 @@ export default function UpdateAssetForm({ currentAsset, formMode = "update" }) {
               description="Driver"
               selectedAsset={driver}
               setSelectedAsset={setDriver}
-              valueArray={convertIntoSelectData(driverResult)}
+              valueArray={convertIntoSelectData(drivers)}
               isDisabled={formMode === "delete"}
             />
           </Grid>
@@ -302,7 +190,7 @@ export default function UpdateAssetForm({ currentAsset, formMode = "update" }) {
               Send
             </LoadingButton>
           )}
-          {formMode == "delete" && (
+          {formMode === "delete" && (
             <LoadingButton
               size="large"
               onClick={handleClick}

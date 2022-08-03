@@ -3,8 +3,6 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
-import Modal from "@mui/material/Modal";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";

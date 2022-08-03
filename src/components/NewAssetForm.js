@@ -12,85 +12,16 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 import SelectBar from "../components/SelectBar";
 
-const teamResult = [
-  {
-    "@assetType": "team",
-    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 99,
-    name: "Anhanguera team",
-  },
-  {
-    "@assetType": "team",
-    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6b",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 98,
-    name: "99 team",
-  },
-  {
-    "@assetType": "team",
-    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6c",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 123,
-    name: "Piranhas team",
-  },
-];
+import { fetchAssets, createAsset } from "../hooks/useRequest";
 
-const driverResult = [
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 100,
-    name: "Ghost Rider",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6b",
-    },
-  },
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6c",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 123,
-    name: "Mariolo",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6d",
-    },
-  },
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6e",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 124,
-    name: "Joãosinho",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6f",
-    },
-  },
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6h",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 125,
-    name: "Maneco",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6i",
-    },
-  },
-];
+import {
+  mountEvent,
+  mountTeam,
+  mountDriver,
+  mountCar,
+} from "../hooks/mountAssets";
 
-function convertTeamIntoSelectData(data) {
+function convertIntoSelectData(data) {
   const asset = data.map((item) => {
     return {
       tag: item["@key"],
@@ -100,43 +31,26 @@ function convertTeamIntoSelectData(data) {
   return asset;
 }
 
-// function convertDriverIntoSelectData(data) {
-//     const asset = data.map((item) => {
-//       return {
-//         tag: item["@key"],
-//         name: item.name,
-//       };
-//     });
-//     return asset;
-//   }
-
-function FormNewCar() {
+function FormNewCar({ drivers }) {
   const [loading, setLoading] = React.useState(false);
-  const [selectedAsset, setSelectedAsset] = React.useState("");
+  const [driver, setSelectedDriver] = React.useState("");
   const [model, setModel] = React.useState("");
 
   const handleChange = (event) => {
     setModel(event.target.value);
   };
-  function send() {
-    const newEvent = {
-      asset: [
-        {
-          "@assetType": "driver",
-          driver: {
-            "@assetType": "driver",
-            "@key": selectedAsset,
-          },
-          id: Math.random() * 100,
-          model: model,
-        },
-      ],
-    };
+  async function send() {
+    const newCar = mountCar({
+      model: model,
+      driver: driver,
+      key: null,
+      mode: "create",
+    });
+    await createAsset(newCar);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setModel("");
-      console.log(newEvent);
     }, 2000);
   }
   return (
@@ -159,10 +73,10 @@ function FormNewCar() {
         </Grid>
         <Grid item xs={8}>
           <SelectBar
-            description="Rider"
-            selectedAsset={selectedAsset}
-            setSelectedAsset={setSelectedAsset}
-            valueArray={convertTeamIntoSelectData(driverResult)}
+            description="Driver"
+            selectedAsset={driver}
+            setSelectedAsset={setSelectedDriver}
+            valueArray={convertIntoSelectData(drivers)}
           />
         </Grid>
         <Grid
@@ -181,7 +95,7 @@ function FormNewCar() {
             loadingPosition="end"
             variant="outlined"
             color="primary"
-            disabled={!model || !selectedAsset}
+            disabled={!model || !driver}
             style={{ width: "100%" }}
           >
             Send
@@ -199,39 +113,16 @@ function FormNewTeam() {
   const handleChange = (event) => {
     setName(event.target.value);
   };
-
-  // function handleClick() {
-  //   setLoading(true);
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 2000);
-  // }
-  function send() {
-    const newEvent = {
-      asset: [
-        {
-          "@assetType": "team",
-          id: Math.random() * 10,
-          name: name,
-        },
-      ],
-    };
+  async function send() {
+    const newTeam = mountTeam({ name: name, key: null, mode: "create" });
+    await createAsset(newTeam);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setName("");
-      console.log(newEvent);
     }, 2000);
   }
   return (
-    <Box
-      component="form"
-      //   sx={{
-      //     "& > :not(style)": { m: 1, width: "500ch" },
-      //   }}
-      noValidate
-      autoComplete="off"
-    >
+    <Box component="form" noValidate autoComplete="off">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h5" gutterBottom component="div">
@@ -275,9 +166,9 @@ function FormNewTeam() {
   );
 }
 
-function FormNewEvent() {
+function FormNewEvent({ teams }) {
   const [loading, setLoading] = React.useState(false);
-  const [selectedAsset, setSelectedAsset] = React.useState("");
+  const [winner, setSelectedWinner] = React.useState("");
   const [name, setName] = React.useState("");
   const [prize, setPrize] = React.useState("");
   const [date, setDate] = React.useState(new Date());
@@ -290,38 +181,24 @@ function FormNewEvent() {
     setPrize(event.target.value);
   };
 
-  function send() {
-    const newEvent = {
-      asset: [
-        {
-          "@assetType": "driver",
-          winner: {
-            "@assetType": "team",
-            "@key": selectedAsset,
-          },
-          id: Math.random() * 10,
-          name: name,
-          prize: prize,
-          date: date,
-        },
-      ],
-    };
+  async function send() {
+    const newEvent = mountEvent({
+      prize: prize,
+      winner: winner,
+      key: null,
+      date: date,
+      name: name,
+      mode: "create",
+    });
+    await createAsset(newEvent);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      console.log(newEvent);
     }, 2000);
   }
 
   return (
-    <Box
-      component="form"
-      //   sx={{
-      //     "& > :not(style)": { m: 1, width: "500ch" },
-      //   }}
-      noValidate
-      autoComplete="off"
-    >
+    <Box component="form" noValidate autoComplete="off">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h5" gutterBottom component="div">
@@ -352,7 +229,7 @@ function FormNewEvent() {
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
               label="Date desktop"
-              inputFormat="MM/dd/yyyy"
+              // inputFormat="MM/dd/yyyy"
               value={date}
               onChange={(newValue) => setDate(newValue)}
               renderInput={(params) => <TextField {...params} />}
@@ -362,9 +239,9 @@ function FormNewEvent() {
         <Grid item xs={8}>
           <SelectBar
             description="Winner"
-            selectedAsset={selectedAsset}
-            setSelectedAsset={setSelectedAsset}
-            valueArray={convertTeamIntoSelectData(teamResult)}
+            selectedAsset={winner}
+            setSelectedAsset={setSelectedWinner}
+            valueArray={convertIntoSelectData(teams)}
           />
         </Grid>
         <Grid
@@ -380,10 +257,9 @@ function FormNewEvent() {
             onClick={send}
             endIcon={<SendIcon />}
             loading={loading}
-            // loadingPosition="end"
             variant="outlined"
             color="primary"
-            disabled={!name || !selectedAsset || !prize}
+            disabled={!name || !winner || !prize}
             style={{ width: "100%" }}
           >
             Send
@@ -394,45 +270,31 @@ function FormNewEvent() {
   );
 }
 
-function FormNewDriver() {
+function FormNewDriver({ teams }) {
   const [loading, setLoading] = React.useState(false);
-  const [selectedAsset, setSelectedAsset] = React.useState("");
+  const [team, setSelectedTeam] = React.useState("");
   const [driver, setDriver] = React.useState("");
 
   const handleChange = (event) => {
     setDriver(event.target.value);
   };
 
-  function send() {
-    const newDriver = {
-      asset: [
-        {
-          "@assetType": "driver",
-          team: {
-            "@assetType": "team",
-            "@key": selectedAsset,
-          },
-          id: Math.random() * 100,
-          name: driver,
-        },
-      ],
-    };
+  async function send() {
+    const newDriver = mountDriver({
+      name: driver,
+      team: team,
+      key: null,
+      mode: "create",
+    });
+    await createAsset(newDriver);
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setDriver("");
-      console.log(newDriver);
     }, 2000);
   }
   return (
-    <Box
-      component="form"
-      //   sx={{
-      //     "& > :not(style)": { m: 1, width: "500ch" },
-      //   }}
-      noValidate
-      autoComplete="off"
-    >
+    <Box component="form" noValidate autoComplete="off">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h5" gutterBottom component="div">
@@ -452,9 +314,9 @@ function FormNewDriver() {
         <Grid item xs={8}>
           <SelectBar
             description="Team"
-            selectedAsset={selectedAsset}
-            setSelectedAsset={setSelectedAsset}
-            valueArray={convertTeamIntoSelectData(teamResult)}
+            selectedAsset={team}
+            setSelectedAsset={setSelectedTeam}
+            valueArray={convertIntoSelectData(teams)}
           />
         </Grid>
         <Grid
@@ -473,7 +335,7 @@ function FormNewDriver() {
             loadingPosition="end"
             variant="outlined"
             color="primary"
-            disabled={!driver || !selectedAsset}
+            disabled={!driver || !setSelectedTeam}
             style={{ width: "100%" }}
           >
             Send
@@ -485,15 +347,48 @@ function FormNewDriver() {
 }
 
 export default function NewAssetForm({ currentAsset }) {
+  const [fethedDrivers, setFethedDrivers] = React.useState([]);
+  const [fethedTeams, setFethedTeams] = React.useState([]);
+
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      const DriversResult = await fetchAssets({
+        query: {
+          selector: {
+            "@assetType": "driver",
+          },
+        },
+      });
+      setFethedDrivers(DriversResult);
+    }
+
+    fetchMyAPI();
+  }, []);
+
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      const TeamsResult = await fetchAssets({
+        query: {
+          selector: {
+            "@assetType": "team",
+          },
+        },
+      });
+      setFethedTeams(TeamsResult);
+    }
+
+    fetchMyAPI();
+  }, []);
+
   switch (currentAsset) {
     case "car":
-      return <FormNewCar />;
+      return <FormNewCar drivers={fethedDrivers} />;
     case "team":
       return <FormNewTeam />;
     case "event":
-      return <FormNewEvent />;
+      return <FormNewEvent teams={fethedTeams} />;
     case "driver":
-      return <FormNewDriver />;
+      return <FormNewDriver teams={fethedTeams} />;
     default:
       return <FormNewDriver />;
   }

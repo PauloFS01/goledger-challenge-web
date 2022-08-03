@@ -16,189 +16,7 @@ import UpdateAssetForm from "./UpdateAssetForm";
 import DialogComponent from "./DialogComponent";
 import formatDate from "../utils/dateFormat";
 
-const carsResult = [
-  {
-    "@assetType": "car",
-    "@key": "car:04bef002-17fb-5482-9b0d-413ae89a4730",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    driver: {
-      "@assetType": "driver",
-      "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    },
-    id: 18,
-    model: "Diferent",
-  },
-  {
-    "@assetType": "car",
-    "@key": "car:25633c68-6995-555d-933f-6680e69d0d3e",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    driver: {
-      assetType: "driver",
-      "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6c",
-    },
-    id: 1549,
-    model: "lepo",
-  },
-  {
-    "@assetType": "car",
-    "@key": "car:04bef002-17fb-5482-9b0d-413ae89a4731",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    driver: {
-      assetType: "driver",
-      "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6c",
-    },
-    id: 32,
-    model: "aother",
-  },
-  {
-    "@assetType": "car",
-    "@key": "car:25633c68-6995-555d-933f-6680e69d0d3u",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    driver: {
-      assetType: "driver",
-      "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6g",
-    },
-    id: 99,
-    model: "junipero",
-  },
-];
-
-const teamResult = [
-  {
-    "@assetType": "team",
-    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 99,
-    name: "Anhanguera team",
-  },
-  {
-    "@assetType": "team",
-    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6b",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 98,
-    name: "99 team",
-  },
-  {
-    "@assetType": "team",
-    "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6d",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 123,
-    name: "Piranhas team",
-  },
-];
-
-const driverResult = [
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 100,
-    name: "Ghost Rider",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6b",
-    },
-  },
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6c",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 123,
-    name: "Mariolo",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6d",
-    },
-  },
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6e",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 124,
-    name: "Joãosinho",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    },
-  },
-  {
-    "@assetType": "driver",
-    "@key": "driver:fc9bd969-bd08-5df8-b371-8c854f103b6g",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    id: 125,
-    name: "Maneco",
-    team: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    },
-  },
-];
-
-const eventResult = [
-  {
-    "@assetType": "event",
-    "@key": "event:1b92cadd-ee52-5b73-8720-699783216b7e",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    date: "2022-10-10T03:00:00Z",
-    name: "Ghost Race",
-    prize: 600,
-    winner: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    },
-  },
-  {
-    "@assetType": "event",
-    "@key": "event:1b92cadd-ee52-5b73-8720-699783216b7e",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    date: "2022-10-10T03:00:00Z",
-    name: "Ghost Race",
-    prize: 700,
-    winner: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    },
-  },
-  {
-    "@assetType": "event",
-    "@key": "event:1b92cadd-ee52-5b73-8720-699783216b7e",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    date: "2022-10-10T03:00:00Z",
-    name: "Ghost Race",
-    prize: 800,
-    winner: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    },
-  },
-  {
-    "@assetType": "event",
-    "@key": "event:1b92cadd-ee52-5b73-8720-699783216b7e",
-    "@lastTouchBy": "orgMSP",
-    "@lastTx": "createAsset",
-    date: "2022-10-10T03:00:00Z",
-    name: "Ghost Race",
-    prize: 1000,
-    winner: {
-      "@assetType": "team",
-      "@key": "team:fc9bd969-bd08-5df8-b371-8c854f103b6a",
-    },
-  },
-];
+import { fetchAssets } from "../hooks/useRequest";
 
 function createData(data) {
   const asset = data.map((item) => {
@@ -206,7 +24,7 @@ function createData(data) {
       key: item["@key"],
       type: "car",
       id: item.id,
-      model: item.model,
+      model: item.model || "No name",
       driver: item.driver["@key"],
     };
   });
@@ -223,10 +41,11 @@ function createDataTeam(data) {
 function createDataDriver(data) {
   const asset = data.map((item) => {
     return {
+      key: item["@key"],
       type: "driver",
       id: item.id,
       name: item.name,
-      team: item.team["@key"],
+      team: item.team["@key"] || "",
     };
   });
   return asset;
@@ -236,6 +55,7 @@ function createDataEvent(data) {
   const asset = data.map((item) => {
     return {
       type: "event",
+      key: item["@key"],
       name: item.name,
       date: item.date,
       prize: item.prize,
@@ -246,21 +66,55 @@ function createDataEvent(data) {
 }
 
 function findeElementByKey(key, font) {
-  const name = font.map((item) => {
-    if (item["@key"] === key) return item.name;
-  });
-  return name;
+  if (font.length === 0) return;
+  const driver = font
+    .map((item) => item["@key"] === key && item.name)
+    .filter((item) => item !== false && item);
+  return driver[0];
 }
 
-function CarTable({ assets }) {
+function CarTable({ drivers, teams }) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [currenRow, setCurrentRow] = React.useState({});
+  const [currenRow, setCurrentRow] = React.useState([]);
   const [formMode, setFormMode] = React.useState("update");
+  const [fethedCars, setFethedCars] = React.useState();
+
   const handleOpen = (row) => {
     setCurrentRow(row);
     setIsOpen(true);
   };
-  const rows = createData(carsResult);
+
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      const result = await fetchAssets({
+        query: {
+          selector: {
+            "@assetType": "car",
+          },
+        },
+      });
+      setFethedCars(result);
+    }
+
+    fetchMyAPI();
+  }, []);
+
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      const result = await fetchAssets({
+        query: {
+          selector: {
+            "@assetType": "car",
+          },
+        },
+      });
+      setFethedCars(result);
+    }
+
+    fetchMyAPI();
+  }, [isOpen]);
+
+  const rows = createData(fethedCars || []);
 
   return (
     <TableContainer component={Paper}>
@@ -281,7 +135,7 @@ function CarTable({ assets }) {
             >
               <TableCell align="left">{row.type}</TableCell>
               <TableCell align="center">
-                {findeElementByKey(row.driver, driverResult)}
+                {findeElementByKey(row.driver, drivers) || "not found"}
               </TableCell>
               <TableCell align="center">{row.model}</TableCell>
               <TableCell align="center">
@@ -311,21 +165,44 @@ function CarTable({ assets }) {
         setIsOpen={setIsOpen}
         title="Change Cars"
       >
-        <UpdateAssetForm currentAsset={currenRow} formMode={formMode} />
+        <UpdateAssetForm
+          currentAsset={currenRow}
+          formMode={formMode}
+          teams={teams}
+          drivers={drivers}
+        />
       </DialogComponent>
     </TableContainer>
   );
 }
 
-function TeamTable({ assets }) {
+function TeamTable({ assets, teams }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currenRow, setCurrentRow] = React.useState({});
   const [formMode, setFormMode] = React.useState("update");
+  const [fethedTeams, setFethedTeams] = React.useState(teams || []);
+
   const handleOpen = (row) => {
     setCurrentRow(row);
     setIsOpen(true);
   };
-  const rows = createDataTeam(teamResult);
+
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      const EventsResult = await fetchAssets({
+        query: {
+          selector: {
+            "@assetType": "team",
+          },
+        },
+      });
+      setFethedTeams(EventsResult);
+    }
+
+    fetchMyAPI();
+  }, [isOpen]);
+
+  const rows = createDataTeam(fethedTeams);
 
   return (
     <TableContainer component={Paper}>
@@ -380,16 +257,35 @@ function TeamTable({ assets }) {
   );
 }
 
-function DriverTable({ assets }) {
+function DriverTable({ drivers, teams }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currenRow, setCurrentRow] = React.useState({});
   const [formMode, setFormMode] = React.useState("update");
+  const [fethedDrivers, setFethedDrivers] = React.useState(drivers || []);
+
   const handleOpen = (row) => {
     setCurrentRow(row);
     setIsOpen(true);
   };
 
-  const rows = createDataDriver(driverResult);
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      const driversResult = await fetchAssets({
+        query: {
+          selector: {
+            "@assetType": "driver",
+          },
+        },
+      });
+      setFethedDrivers(driversResult);
+    }
+
+    fetchMyAPI();
+  }, [isOpen]);
+
+  React.useEffect(() => console.log(fethedDrivers), [fethedDrivers]);
+
+  const rows = createDataDriver(fethedDrivers);
 
   return (
     <TableContainer component={Paper}>
@@ -413,7 +309,7 @@ function DriverTable({ assets }) {
               <TableCell align="center">{row.id}</TableCell>
               <TableCell align="center">{row.name}</TableCell>
               <TableCell align="center">
-                {findeElementByKey(row.team, teamResult)}
+                {findeElementByKey(row.team, teams) || "Not found"}
               </TableCell>
               <TableCell align="center">
                 <IconButton aria-label="edit" color="primary">
@@ -442,21 +338,42 @@ function DriverTable({ assets }) {
         setIsOpen={setIsOpen}
         title="Change Driver"
       >
-        <UpdateAssetForm currentAsset={currenRow} formMode={formMode} />
+        <UpdateAssetForm
+          currentAsset={currenRow}
+          formMode={formMode}
+          teams={teams}
+        />
       </DialogComponent>
     </TableContainer>
   );
 }
-function EventTable({ assets }) {
+function EventTable({ events, teams, drivers }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currenRow, setCurrentRow] = React.useState({});
   const [formMode, setFormMode] = React.useState("update");
+  const [fethedEvents, setFethedEvents] = React.useState(events || []);
+
   const handleOpen = (row) => {
     setCurrentRow(row);
     setIsOpen(true);
   };
 
-  const rows = createDataEvent(eventResult);
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      const EventsResult = await fetchAssets({
+        query: {
+          selector: {
+            "@assetType": "event",
+          },
+        },
+      });
+      setFethedEvents(EventsResult);
+    }
+
+    fetchMyAPI();
+  }, [isOpen]);
+
+  const rows = createDataEvent(fethedEvents);
 
   return (
     <TableContainer component={Paper}>
@@ -511,17 +428,79 @@ function EventTable({ assets }) {
         setIsOpen={setIsOpen}
         title="Change Event"
       >
-        <UpdateAssetForm currentAsset={currenRow} formMode={formMode} />
+        <UpdateAssetForm
+          currentAsset={currenRow}
+          formMode={formMode}
+          teams={teams}
+          drivers={drivers}
+        />
       </DialogComponent>
     </TableContainer>
   );
 }
 
 export default function BasicTable({ asset }) {
-  if (asset === "car") return <CarTable />;
-  if (asset === "team") return <TeamTable />;
-  if (asset === "driver") return <DriverTable />;
-  if (asset === "event") return <EventTable />;
+  const [fethedDrivers, setFethedDrivers] = React.useState([]);
+  const [fethedTeams, setFethedTeams] = React.useState([]);
+  const [fethedEvents, setFethedEvents] = React.useState([]);
+
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      const DriversResult = await fetchAssets({
+        query: {
+          selector: {
+            "@assetType": "driver",
+          },
+        },
+      });
+      setFethedDrivers(DriversResult);
+    }
+
+    fetchMyAPI();
+  }, []);
+
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      const TeamsResult = await fetchAssets({
+        query: {
+          selector: {
+            "@assetType": "team",
+          },
+        },
+      });
+      setFethedTeams(TeamsResult);
+    }
+
+    fetchMyAPI();
+  }, []);
+
+  React.useEffect(() => {
+    async function fetchMyAPI() {
+      const EventsResult = await fetchAssets({
+        query: {
+          selector: {
+            "@assetType": "event",
+          },
+        },
+      });
+      setFethedEvents(EventsResult);
+    }
+
+    fetchMyAPI();
+  }, []);
+
+  if (asset === "car") return <CarTable drivers={fethedDrivers} />;
+  if (asset === "team") return <TeamTable teams={fethedTeams} />;
+  if (asset === "driver")
+    return <DriverTable drivers={fethedDrivers} teams={fethedTeams} />;
+  if (asset === "event")
+    return (
+      <EventTable
+        events={fethedEvents}
+        teams={fethedTeams}
+        drivers={fethedDrivers}
+      />
+    );
 }
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
