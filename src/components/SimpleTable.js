@@ -116,64 +116,68 @@ function CarTable({ drivers, teams }) {
 
   const rows = createData(fethedCars || []);
 
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <StyledTableRow>
-            <TableCell align="left">Type</TableCell>
-            <TableCell align="center">Driver</TableCell>
-            <TableCell align="center">Model</TableCell>
-            <TableCell align="center">Actions</TableCell>
-          </StyledTableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="left">{row.type}</TableCell>
-              <TableCell align="center">
-                {findeElementByKey(row.driver, drivers) || "not found"}
-              </TableCell>
-              <TableCell align="center">{row.model}</TableCell>
-              <TableCell align="center">
-                <IconButton aria-label="edit" color="primary">
-                  <BorderColorIcon
-                    onClick={() => {
-                      setFormMode("update");
-                      handleOpen(row);
-                    }}
-                  />
-                </IconButton>
-                <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
-                  <DeleteForeverIcon
-                    onClick={() => {
-                      setFormMode("delete");
-                      handleOpen(row);
-                    }}
-                  />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <DialogComponent
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        title="Change Cars"
-      >
-        <UpdateAssetForm
-          currentAsset={currenRow}
-          formMode={formMode}
-          teams={teams}
-          drivers={drivers}
-        />
-      </DialogComponent>
-    </TableContainer>
-  );
+  const TableRender = React.useCallback(() => {
+    return (
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <StyledTableRow>
+              <TableCell align="left">Type</TableCell>
+              <TableCell align="center">Driver</TableCell>
+              <TableCell align="center">Model</TableCell>
+              <TableCell align="center">Actions</TableCell>
+            </StyledTableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="left">{row.type}</TableCell>
+                <TableCell align="center">
+                  {findeElementByKey(row.driver, drivers) || "not found"}
+                </TableCell>
+                <TableCell align="center">{row.model}</TableCell>
+                <TableCell align="center">
+                  <IconButton aria-label="edit" color="primary">
+                    <BorderColorIcon
+                      onClick={() => {
+                        setFormMode("update");
+                        handleOpen(row);
+                      }}
+                    />
+                  </IconButton>
+                  <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
+                    <DeleteForeverIcon
+                      onClick={() => {
+                        setFormMode("delete");
+                        handleOpen(row);
+                      }}
+                    />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <DialogComponent
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          title="Change Cars"
+        >
+          <UpdateAssetForm
+            currentAsset={currenRow}
+            formMode={formMode}
+            teams={teams}
+            drivers={drivers}
+          />
+        </DialogComponent>
+      </TableContainer>
+    );
+  }, [fethedCars]);
+
+  return <TableRender />;
 }
 
 function TeamTable({ assets, teams }) {
@@ -189,14 +193,14 @@ function TeamTable({ assets, teams }) {
 
   React.useEffect(() => {
     async function fetchMyAPI() {
-      const EventsResult = await fetchAssets({
+      const teamsResult = await fetchAssets({
         query: {
           selector: {
             "@assetType": "team",
           },
         },
       });
-      setFethedTeams(EventsResult);
+      setFethedTeams(teamsResult);
     }
 
     fetchMyAPI();
@@ -204,57 +208,61 @@ function TeamTable({ assets, teams }) {
 
   const rows = createDataTeam(fethedTeams);
 
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <StyledTableRow>
-            <TableCell align="left">Type</TableCell>
-            <TableCell align="center">ID</TableCell>
-            <TableCell align="center">Name</TableCell>
-            <TableCell align="center">Actions</TableCell>
-          </StyledTableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="left">{row.type}</TableCell>
-              <TableCell align="center">{row.id}</TableCell>
-              <TableCell align="center">{row.name}</TableCell>
-              <TableCell align="center">
-                <IconButton aria-label="edit" color="primary">
-                  <BorderColorIcon
-                    onClick={() => {
-                      setFormMode("update");
-                      handleOpen(row);
-                    }}
-                  />
-                </IconButton>
-                <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
-                  <DeleteForeverIcon
-                    onClick={() => {
-                      setFormMode("delete");
-                      handleOpen(row);
-                    }}
-                  />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <DialogComponent
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        title="Change Team"
-      >
-        <UpdateAssetForm currentAsset={currenRow} formMode={formMode} />
-      </DialogComponent>
-    </TableContainer>
-  );
+  const TableRender = React.useCallback(() => {
+    return (
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <StyledTableRow>
+              <TableCell align="left">Type</TableCell>
+              <TableCell align="center">ID</TableCell>
+              <TableCell align="center">Name</TableCell>
+              <TableCell align="center">Actions</TableCell>
+            </StyledTableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="left">{row.type}</TableCell>
+                <TableCell align="center">{row.id}</TableCell>
+                <TableCell align="center">{row.name}</TableCell>
+                <TableCell align="center">
+                  <IconButton aria-label="edit" color="primary">
+                    <BorderColorIcon
+                      onClick={() => {
+                        setFormMode("update");
+                        handleOpen(row);
+                      }}
+                    />
+                  </IconButton>
+                  <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
+                    <DeleteForeverIcon
+                      onClick={() => {
+                        setFormMode("delete");
+                        handleOpen(row);
+                      }}
+                    />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <DialogComponent
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          title="Change Team"
+        >
+          <UpdateAssetForm currentAsset={currenRow} formMode={formMode} />
+        </DialogComponent>
+      </TableContainer>
+    );
+  }, [fethedTeams]);
+
+  return <TableRender />;
 }
 
 function DriverTable({ drivers, teams }) {
@@ -287,65 +295,69 @@ function DriverTable({ drivers, teams }) {
 
   const rows = createDataDriver(fethedDrivers);
 
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <StyledTableRow>
-            <TableCell align="left">Type</TableCell>
-            <TableCell align="center">ID</TableCell>
-            <TableCell align="center">Name</TableCell>
-            <TableCell align="center">Team</TableCell>
-            <TableCell align="center">Actions</TableCell>
-          </StyledTableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="left">{row.type}</TableCell>
-              <TableCell align="center">{row.id}</TableCell>
-              <TableCell align="center">{row.name}</TableCell>
-              <TableCell align="center">
-                {findeElementByKey(row.team, teams) || "Not found"}
-              </TableCell>
-              <TableCell align="center">
-                <IconButton aria-label="edit" color="primary">
-                  <BorderColorIcon
-                    onClick={() => {
-                      setFormMode("update");
-                      handleOpen(row);
-                    }}
-                  />
-                </IconButton>
-                <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
-                  <DeleteForeverIcon
-                    onClick={() => {
-                      setFormMode("delete");
-                      handleOpen(row);
-                    }}
-                  />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <DialogComponent
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        title="Change Driver"
-      >
-        <UpdateAssetForm
-          currentAsset={currenRow}
-          formMode={formMode}
-          teams={teams}
-        />
-      </DialogComponent>
-    </TableContainer>
-  );
+  const TableRender = React.useCallback(() => {
+    return (
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <StyledTableRow>
+              <TableCell align="left">Type</TableCell>
+              <TableCell align="center">ID</TableCell>
+              <TableCell align="center">Name</TableCell>
+              <TableCell align="center">Team</TableCell>
+              <TableCell align="center">Actions</TableCell>
+            </StyledTableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="left">{row.type}</TableCell>
+                <TableCell align="center">{row.id}</TableCell>
+                <TableCell align="center">{row.name}</TableCell>
+                <TableCell align="center">
+                  {findeElementByKey(row.team, teams) || "Not found"}
+                </TableCell>
+                <TableCell align="center">
+                  <IconButton aria-label="edit" color="primary">
+                    <BorderColorIcon
+                      onClick={() => {
+                        setFormMode("update");
+                        handleOpen(row);
+                      }}
+                    />
+                  </IconButton>
+                  <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
+                    <DeleteForeverIcon
+                      onClick={() => {
+                        setFormMode("delete");
+                        handleOpen(row);
+                      }}
+                    />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <DialogComponent
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          title="Change Driver"
+        >
+          <UpdateAssetForm
+            currentAsset={currenRow}
+            formMode={formMode}
+            teams={teams}
+          />
+        </DialogComponent>
+      </TableContainer>
+    );
+  }, [fethedDrivers]);
+
+  return <TableRender />;
 }
 function EventTable({ events, teams, drivers }) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -375,68 +387,72 @@ function EventTable({ events, teams, drivers }) {
 
   const rows = createDataEvent(fethedEvents);
 
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <StyledTableRow>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="center">Date</TableCell>
-            <TableCell align="center">Prize</TableCell>
-            <TableCell align="center">Actions</TableCell>
-          </StyledTableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.id}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell align="left">{row.name}</TableCell>
-              <TableCell align="center">
-                {formatDate(new Date(row.date))}
-              </TableCell>
-              <TableCell align="center">{row.prize}</TableCell>
-              <TableCell align="center">
-                <IconButton
-                  aria-label="edit"
-                  color="primary"
-                  onClick={() => handleOpen(row)}
-                >
-                  <BorderColorIcon
-                    onClick={() => {
-                      setFormMode("update");
-                      handleOpen(row);
-                    }}
-                  />
-                </IconButton>
-                <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
-                  <DeleteForeverIcon
-                    onClick={() => {
-                      setFormMode("delete");
-                      handleOpen(row);
-                    }}
-                  />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <DialogComponent
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        title="Change Event"
-      >
-        <UpdateAssetForm
-          currentAsset={currenRow}
-          formMode={formMode}
-          teams={teams}
-          drivers={drivers}
-        />
-      </DialogComponent>
-    </TableContainer>
-  );
+  const TableRender = React.useCallback(() => {
+    return (
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <StyledTableRow>
+              <TableCell align="left">Name</TableCell>
+              <TableCell align="center">Date</TableCell>
+              <TableCell align="center">Prize</TableCell>
+              <TableCell align="center">Actions</TableCell>
+            </StyledTableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map((row) => (
+              <TableRow
+                key={row.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell align="left">{row.name}</TableCell>
+                <TableCell align="center">
+                  {formatDate(new Date(row.date))}
+                </TableCell>
+                <TableCell align="center">{row.prize}</TableCell>
+                <TableCell align="center">
+                  <IconButton
+                    aria-label="edit"
+                    color="primary"
+                    onClick={() => handleOpen(row)}
+                  >
+                    <BorderColorIcon
+                      onClick={() => {
+                        setFormMode("update");
+                        handleOpen(row);
+                      }}
+                    />
+                  </IconButton>
+                  <IconButton aria-label="delete" style={{ color: "#ff4569" }}>
+                    <DeleteForeverIcon
+                      onClick={() => {
+                        setFormMode("delete");
+                        handleOpen(row);
+                      }}
+                    />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <DialogComponent
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          title="Change Event"
+        >
+          <UpdateAssetForm
+            currentAsset={currenRow}
+            formMode={formMode}
+            teams={teams}
+            drivers={drivers}
+          />
+        </DialogComponent>
+      </TableContainer>
+    );
+  }, [fethedEvents]);
+
+  return <TableRender />;
 }
 
 export default function BasicTable({ asset }) {
