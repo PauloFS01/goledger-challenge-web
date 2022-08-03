@@ -15,7 +15,6 @@ export const fetchAssets = async (params) => {
 };
 
 export const createAsset = async (params) => {
-  console.info(JSON.stringify(params));
   try {
     const { url } = endpoints.NEW_ASSET;
     const response = await axios.put(url, params);
@@ -27,7 +26,6 @@ export const createAsset = async (params) => {
 };
 
 export const updateAsset = async (params) => {
-  console.info(JSON.stringify(params));
   try {
     const { url } = endpoints.UPDATE_ASSET;
     const response = await axios.put(url, params);
@@ -38,7 +36,6 @@ export const updateAsset = async (params) => {
   }
 };
 export const deleteAsset = async (params) => {
-  console.info(JSON.stringify(params));
   try {
     const { url } = endpoints.DELETE_ASSET;
     const response = await axios.post(url, params);

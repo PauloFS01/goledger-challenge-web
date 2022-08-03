@@ -40,6 +40,7 @@ function FormNewCar({ drivers }) {
     setModel(event.target.value);
   };
   async function send() {
+    setLoading(true);
     const newCar = mountCar({
       model: model,
       driver: driver,
@@ -47,7 +48,6 @@ function FormNewCar({ drivers }) {
       mode: "create",
     });
     await createAsset(newCar);
-    setLoading(true);
     setTimeout(() => {
       setLoading(false);
       setModel("");
@@ -114,9 +114,9 @@ function FormNewTeam() {
     setName(event.target.value);
   };
   async function send() {
+    setLoading(true);
     const newTeam = mountTeam({ name: name, key: null, mode: "create" });
     await createAsset(newTeam);
-    setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -182,6 +182,7 @@ function FormNewEvent({ teams }) {
   };
 
   async function send() {
+    setLoading(true);
     const newEvent = mountEvent({
       prize: prize,
       winner: winner,
@@ -191,7 +192,6 @@ function FormNewEvent({ teams }) {
       mode: "create",
     });
     await createAsset(newEvent);
-    setLoading(true);
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -280,6 +280,7 @@ function FormNewDriver({ teams }) {
   };
 
   async function send() {
+    setLoading(false);
     const newDriver = mountDriver({
       name: driver,
       team: team,
@@ -289,7 +290,6 @@ function FormNewDriver({ teams }) {
     await createAsset(newDriver);
     setLoading(true);
     setTimeout(() => {
-      setLoading(false);
       setDriver("");
     }, 2000);
   }
