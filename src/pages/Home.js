@@ -74,6 +74,7 @@ export default function Home() {
                   variant="contained"
                   startIcon={<AddIcon />}
                   onClick={handleOpen}
+                  disabled={!selectedAsset}
                 >
                   Add asset
                 </Button>
