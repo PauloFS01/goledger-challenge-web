@@ -73,7 +73,7 @@ function findeElementByKey(key, font) {
   return driver[0];
 }
 
-function CarTable({ drivers, teams }) {
+function CarTable({ drivers, teams, stateOfModal }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currenRow, setCurrentRow] = React.useState([]);
   const [formMode, setFormMode] = React.useState("update");
@@ -112,7 +112,7 @@ function CarTable({ drivers, teams }) {
     }
 
     fetchMyAPI();
-  }, [isOpen]);
+  }, [isOpen, stateOfModal]);
 
   const rows = createData(fethedCars || []);
 
@@ -180,7 +180,7 @@ function CarTable({ drivers, teams }) {
   return <TableRender />;
 }
 
-function TeamTable({ assets, teams }) {
+function TeamTable({ teams, stateOfModal }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currenRow, setCurrentRow] = React.useState({});
   const [formMode, setFormMode] = React.useState("update");
@@ -204,7 +204,7 @@ function TeamTable({ assets, teams }) {
     }
 
     fetchMyAPI();
-  }, [isOpen]);
+  }, [isOpen, stateOfModal]);
 
   const rows = createDataTeam(fethedTeams);
 
@@ -265,7 +265,7 @@ function TeamTable({ assets, teams }) {
   return <TableRender />;
 }
 
-function DriverTable({ drivers, teams }) {
+function DriverTable({ drivers, teams, stateOfModal }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currenRow, setCurrentRow] = React.useState({});
   const [formMode, setFormMode] = React.useState("update");
@@ -289,7 +289,7 @@ function DriverTable({ drivers, teams }) {
     }
 
     fetchMyAPI();
-  }, [isOpen]);
+  }, [isOpen, stateOfModal]);
 
   React.useEffect(() => console.log(fethedDrivers), [fethedDrivers]);
 
@@ -359,7 +359,7 @@ function DriverTable({ drivers, teams }) {
 
   return <TableRender />;
 }
-function EventTable({ events, teams, drivers }) {
+function EventTable({ events, teams, drivers, stateOfModal }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [currenRow, setCurrentRow] = React.useState({});
   const [formMode, setFormMode] = React.useState("update");
@@ -383,7 +383,7 @@ function EventTable({ events, teams, drivers }) {
     }
 
     fetchMyAPI();
-  }, [isOpen]);
+  }, [isOpen, stateOfModal]);
 
   const rows = createDataEvent(fethedEvents);
 
@@ -455,7 +455,7 @@ function EventTable({ events, teams, drivers }) {
   return <TableRender />;
 }
 
-export default function BasicTable({ asset }) {
+export default function SimpleTable({ asset, stateOfModal }) {
   const [fethedDrivers, setFethedDrivers] = React.useState([]);
   const [fethedTeams, setFethedTeams] = React.useState([]);
   const [fethedEvents, setFethedEvents] = React.useState([]);
@@ -505,16 +505,25 @@ export default function BasicTable({ asset }) {
     fetchMyAPI();
   }, []);
 
-  if (asset === "car") return <CarTable drivers={fethedDrivers} />;
-  if (asset === "team") return <TeamTable teams={fethedTeams} />;
+  if (asset === "car")
+    return <CarTable drivers={fethedDrivers} stateOfModal={stateOfModal} />;
+  if (asset === "team")
+    return <TeamTable teams={fethedTeams} stateOfModal={stateOfModal} />;
   if (asset === "driver")
-    return <DriverTable drivers={fethedDrivers} teams={fethedTeams} />;
+    return (
+      <DriverTable
+        drivers={fethedDrivers}
+        teams={fethedTeams}
+        stateOfModal={stateOfModal}
+      />
+    );
   if (asset === "event")
     return (
       <EventTable
         events={fethedEvents}
         teams={fethedTeams}
         drivers={fethedDrivers}
+        stateOfModal={stateOfModal}
       />
     );
 }

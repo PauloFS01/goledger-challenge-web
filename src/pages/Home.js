@@ -81,8 +81,7 @@ export default function Home() {
               </Grid>
             </Grid>
           </Box>
-          {/* </div> */}
-          <SimpleTable asset={selectedAsset} />
+          <SimpleTable asset={selectedAsset} stateOfModal={isOpen} />
         </Paper>
       </Box>
       {selectedAsset && (
